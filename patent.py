@@ -51,47 +51,40 @@ class patent():
         A = self.patent_dict[inventA].split()
         B = self.patent_dict[inventB].split()
         if condition == "game":
-            print(f"""
-**************************PATENT OFFICER**************************
+            return f"""
+************************* PATENT OFFICER *************************
 ------------------------------------------------------------------
+PLAYER: {self.user_name}
 COINS: {self.score}
 ------------------------------------------------------------------
 Invention A: {A[0]}
 [{A[1]}]
-Invention A: {B[0]}
+Invention B: {B[0]}
 [{B[1]}]
-Which one was invented 1st, A or B:""")
+Which one was invented 1st, A or B:
+"""
         else:
             highest = max(self.users_scores.values())
-            print(
-                f"""
+            return f"""
 *************************** HIGH SCORE ***************************
 ------------------------------------------------------------------
                     COINS: {self.score}
             HIGHEST COINS: {highest}
-                    GAME    OVER
-------------------------------------------------------------------""")
-            
+                          GAME    OVER
+------------------------------------------------------------------
+"""
+    
+    def officer(self, inventA, inventB):
+        ans = input(">> ").lower()
+        while True:
+            if (ans == "a" and inventA < inventB) or (ans == "b" and inventA > inventB):
+                if self.level == 100: self.score += 10
+                elif self.level == 50: self.score += 15
+                elif self.level == 25: self.score += 20
+                break
 
+            elif ans not in ("a", "b"):
+                print("Invalid Input")
 
 if __name__ == "__main__":
-    B=""; patent.game_data()
-    for i in range(10):
-        # print(patent.patent_dict)
-
-        # loads, updates and saves the score of a player
-        player = patent("Ogyam2")
-        # player.user_data("load")
-        # for i in range(5):
-        #     player.add_score()
-        # player.user_data("update")
-        # player.user_data("save")
-
-        # print(player.score)
-        # print(player.users_scores)
-        # player.user_data("clear")
-        
-        A, B = player.collector(B)
-        print(player.patent_dict[A], player.patent_dict[B], sep="\n")
-        print()
-        pass
+    pass

@@ -1,4 +1,5 @@
 from random import choice
+import os
 class patent():
 
     def __init__(self, user_name, level = 100, score = 0):
@@ -11,20 +12,21 @@ class patent():
         with open("dict_inventions.txt", "r") as fh_game:  
             cls.patent_dict = eval(fh_game.read())
 
-    def user_data(self, action = "save"):
+    @classmethod
+    def user_data(cls, action = "load"):
             if action == "load":
                 with open("user_data.txt", "r") as fh_load:
-                    self.users_scores = eval(fh_load.read())
+                    cls.users_scores = eval(fh_load.read())
     
             elif action == "save":
                 with open("user_data.txt", "w+") as fh_save:
-                    txt = str(self.users_scores)
+                    txt = str(cls.users_scores)
                     fh_save.write(txt)
 
             elif action == "update":
-                self.users_scores[self.user_name] = self.users_scores.get(self.user_name, 0)
-                if self.users_scores[self.user_name] < self.score:
-                    self.users_scores[self.user_name] = self.score
+                cls.users_scores[cls.user_name] = cls.users_scores.get(cls.user_name, 0)
+                if cls.users_scores[cls.user_name] < cls.score:
+                    cls.users_scores[cls.user_name] = cls.score
             
             elif action == "clear":
                 with open("user_data.txt", "w") as fh_clear:
@@ -38,7 +40,7 @@ class patent():
     #     self.score += 100
 
     def collector(self, inventB):
-        if inventB == "":
+        if inventB == None:
             inventA = choice(range(1800, 2022))
         else:
             inventA = inventB
@@ -47,7 +49,7 @@ class patent():
             if 1800 <= inventB <= 2021:
                 return (inventA, inventB)
     
-    def __str__(self, inventA, inventB, condition = "game"):
+    def display(self, inventA, inventB, condition = "game"):
         A = self.patent_dict[inventA].split()
         B = self.patent_dict[inventB].split()
         if condition == "game":
@@ -75,16 +77,32 @@ Which one was invented 1st, A or B:
 """
     
     def officer(self, inventA, inventB):
-        ans = input(">> ").lower()
         while True:
+            ans = input(">> ").lower()
             if (ans == "a" and inventA < inventB) or (ans == "b" and inventA > inventB):
                 if self.level == 100: self.score += 10
                 elif self.level == 50: self.score += 15
                 elif self.level == 25: self.score += 20
-                break
-
+                return True
             elif ans not in ("a", "b"):
                 print("Invalid Input")
+            else:
+                return False
 
 if __name__ == "__main__":
-    pass
+    patent.game_data()
+    patent.user_data()
+    player = patent("Kwabena")
+    B = None
+    while True:
+        os.system("cls")
+        A, B = player.collector(B)
+        print(player.display(A, B))
+        status = player.officer(A, B)
+        if not status:
+            print(player.display(A, B, "coins"))
+            patent.user_data("save")
+            break
+        patent.user_data("update")
+
+    print("So far so good")

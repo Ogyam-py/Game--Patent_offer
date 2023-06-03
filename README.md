@@ -12,3 +12,11 @@
 7. Repeat the process with new pairs of inventions for the user to continue playing the game.
 
 To add more challenge, you can introduce different difficulty levels, such as increasing the time limit for each decision or incorporating multiple-choice options. Additionally, you can keep track of the user's score and provide a final score at the end of the game.
+
+
+## GAME DEVELOPMENT IN STAGES
+0. Drawing and planning the algorithm of the game
+1. Defining the class Patent and it related methods.
+2. Defining the class mainGame
+    - It would handle all the smooth running of the game
+    - It would make use of the class Patent and it's methods.
